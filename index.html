@@ -491,6 +491,76 @@
       column-span: all;
     }
 
+    /* ── CATÁLOGO DE PEÇAS ── */
+    .catalog-intro {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 1.5rem 2rem;
+      text-align: center;
+      color: var(--wood-medium);
+      font-size: 1.1rem;
+    }
+
+    .catalog-block {
+      padding: 0 5% 4rem;
+    }
+
+    .catalog-block--available {
+      background: #efe6dc;
+      padding-top: 3rem;
+      padding-bottom: 4rem;
+    }
+
+    .catalog-block-header {
+      max-width: 1120px;
+      margin: 0 auto 2rem;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
+      border-bottom: 1px solid rgba(93,64,55,0.25);
+      padding-bottom: 1rem;
+    }
+
+    .catalog-block-header h4 {
+      font-family: 'Playfair Display', serif;
+      color: var(--wood-dark);
+      font-size: 2rem;
+      font-weight: 400;
+    }
+
+    .catalog-block-header p { color: var(--wood-medium); margin: 0; }
+
+    .catalog-grid {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+
+    .catalog-card {
+      background: var(--cream);
+      border: 1px solid rgba(93,64,55,0.18);
+      box-shadow: 0 8px 22px rgba(44,30,20,0.08);
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .catalog-card:hover { transform: translateY(-5px); box-shadow: 0 14px 28px rgba(44,30,20,0.16); }
+    .catalog-card img { width: 100%; aspect-ratio: 1 / 1.08; object-fit: cover; display: block; }
+    .catalog-card-info { padding: 1rem 1.1rem 1.2rem; }
+    .catalog-card-info h5 { font-family: 'Playfair Display', serif; color: var(--wood-dark); font-size: 1.3rem; margin-bottom: 0.25rem; }
+    .catalog-card-info p { color: var(--wood-medium); font-size: 0.98rem; margin: 0; }
+    .catalog-card .badge { position: static; display: inline-block; margin: 0 0 0.55rem; box-shadow: none; }
+
+    .models-grid { max-width: 1120px; margin: 0 auto; columns: 4; column-gap: 1.25rem; padding: 0; }
+    .model-card { break-inside: avoid; margin-bottom: 1.25rem; position: relative; cursor: pointer; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); background: var(--cream); }
+    .model-card img { width: 100%; display: block; transition: transform 0.5s ease; }
+    .model-card:hover img { transform: scale(1.04); }
+    .model-card figcaption { padding: 0.65rem 0.8rem; color: var(--wood-dark); font-family: 'Playfair Display', serif; font-size: 1.15rem; background: var(--cream); }
+
     /* ── LIGHTBOX ── */
     .lightbox {
       display: none;
@@ -756,6 +826,8 @@
     @media (max-width: 900px) {
       .sobre { grid-template-columns: 1fr; }
       .gallery-grid { columns: 2; }
+      .catalog-grid { grid-template-columns: repeat(2, 1fr); }
+      .models-grid { columns: 2; }
       .sobre-img { 
         height: 300px; 
         margin-top: 2rem; 
@@ -788,6 +860,10 @@
     /* ── RESPONSIVE — MOBILE (≤ 600px) ── */
     @media (max-width: 600px) {
       .gallery-grid { columns: 1; }
+      .catalog-grid { grid-template-columns: 1fr; }
+      .models-grid { columns: 1; }
+      .catalog-block-header { display: block; }
+      .catalog-block-header p { margin-top: 0.35rem; }
       .cookie-bar { flex-direction: column; align-items: flex-start; padding: 1rem 5%; }
       .hero h2 { font-size: 2.2rem; }
       .hero p { font-size: 1.1rem; }
@@ -868,21 +944,32 @@
     <div class="sobre-img"></div>
   </section>
 
-  <!-- GALERIA -->
+  <!-- CATÁLOGO -->
   <section id="galeria" class="reveal">
     <div class="section-header">
-      <h3>A Nossa Galeria</h3>
-      <p>Clique nas imagens para ver detalhes.</p>
-      <p style="font-style: italic; margin-top: 0.5rem; opacity: 0.8; font-size: 0.95rem;">Nota: Devido à natureza única das nossas peças, algumas podem já estar indisponíveis.</p>
+      <h3>Peças &amp; Modelos</h3>
+      <p class="catalog-intro">Descubra as peças que estão disponíveis neste momento e conheça os modelos que podemos criar por encomenda. Clique numa imagem para a ampliar.</p>
     </div>
 
-    <div class="gallery-filters">
-      <button class="filter-btn active" onclick="filtrarGaleria('todas', this)">Todas</button>
-      <button class="filter-btn" onclick="filtrarGaleria('disponivel', this)">Disponíveis</button>
-      <button class="filter-btn" onclick="filtrarGaleria('indisponivel', this)">Indisponíveis</button>
+    <div class="catalog-block catalog-block--available">
+      <div class="catalog-block-header">
+        <div>
+          <h4>Disponível agora</h4>
+          <p>Peças únicas prontas para encontrar um novo espaço.</p>
+        </div>
+        <span class="badge badge-available">Stock atual</span>
+      </div>
+      <div class="catalog-grid" id="availableGrid"></div>
     </div>
-    <div class="gallery-grid" id="galleryGrid">
-      <div class="gallery-empty">A carregar peças…</div>
+
+    <div class="catalog-block">
+      <div class="catalog-block-header">
+        <div>
+          <h4>Modelos por encomenda</h4>
+          <p>Escolha o seu modelo e fale connosco para personalizar a sua peça.</p>
+        </div>
+      </div>
+      <div class="models-grid" id="modelsGrid"></div>
     </div>
   </section>
 
@@ -995,94 +1082,54 @@
     });
 
     // ============================================================
-    // GALERIA — Para adicionar uma nova peça, copia um bloco { }
-    // e preenche: img (caminho da imagem), titulo, desc e disponivel (true/false).
+    // CATÁLOGO — Para atualizar uma peça, altere apenas os dados neste bloco.
     // ============================================================
-    const pecas = [
+    const pecasDisponiveis = [
       {
         img: "/TracosRusticos-pagina/src/Cadeira1_marco.webp",
-        titulo: "Cadeirão Vintage",
-        desc: "Cadeirão vintage restaurado estofado em tecido.",
-        disponivel: true
+        titulo: "P.D.1",
+        desc: "Cadeirão vintage restaurado estofado em tecido."
       },
       {
         img: "/TracosRusticos-pagina/src/Cadeira2_marco.webp",
-        titulo: "Cadeira de Teatro",
-        desc: "Cadeira de madeira com assento estofado em veludo vermelho.",
-        disponivel: true
+        titulo: "P.D.2",
+        desc: "Cadeira de madeira com assento estofado em veludo vermelho."
       },
       {
         img: "/TracosRusticos-pagina/src/Cadeira3_marco.webp",
-        titulo: "Conjunto de Cadeiras + Mesa",
-        desc: "Conjunto de Cadeiras com mesa restaurada em madeira maciça, perfeito para refeições rústicas.",
-        disponivel: true
+        titulo: "P.D.3",
+        desc: "Conjunto de cadeiras e mesa restaurada em madeira maciça."
       },
       {
         img: "/TracosRusticos-pagina/src/mesa_carpinteiro.webp",
-        titulo: "Mesa de Carpinteiro",
-        desc: "Mesa de trabalho ideal para um espaço de criação.",
-        disponivel: true
-      },
-      {
-        img: "/TracosRusticos-pagina/src/banco.webp",
-        titulo: "Banco Rústico",
-        desc: "Banco estilo suíço, perfeito quer para interiores quer para exteriores.",
-        disponivel: true
-      },
-      {
-        img: "/TracosRusticos-pagina/src/Cadeira_jardim.webp",
-        titulo: "Cadeira de Jardim",
-        desc: "Cadeira rústica ideal para ambientes exteriores.",
-        disponivel: true
+        titulo: "P.D.4",
+        desc: "Mesa de carpinteiro ideal para um espaço de criação."
       },
     ];
-    // ============================================================
+    const modelos = [1, 2, 3, 4, 5, 6, 7, 8].map((numero) => ({
+      img: numero === 4 ? "/TracosRusticos-pagina/src/modelo_4.jpg" : `/TracosRusticos-pagina/Modelo ${numero}.jpeg`,
+      titulo: `Modelo ${numero}`,
+      desc: `Modelo ${numero} disponível para encomenda.`
+    }));
 
-    const grid = document.getElementById('galleryGrid');
+    const pecas = [...pecasDisponiveis, ...modelos];
+    const availableGrid = document.getElementById('availableGrid');
+    const modelsGrid = document.getElementById('modelsGrid');
     let currentIndex = 0;
-    let pecasFiltradas = [...pecas];
 
-    function renderizarGaleria(lista) {
-      grid.innerHTML = '';
-      if (lista.length === 0) {
-        grid.innerHTML = '<div class="gallery-empty">Nenhuma peça encontrada nesta categoria.</div>';
-        return;
-      }
-      
-      lista.forEach((peca) => {
-        const originalIndex = pecas.findIndex(p => p.img === peca.img);
-        const statusClass = peca.disponivel ? 'available' : 'unavailable';
-        const statusText = peca.disponivel ? 'Disponível' : 'Indisponível';
-        const badgeClass = peca.disponivel ? 'badge-available' : 'badge-unavailable';
+    pecasDisponiveis.forEach((peca, index) => {
+      availableGrid.innerHTML += `<article class="catalog-card" onclick="abrirLightbox(${index})">
+        <img src="${peca.img}" alt="${peca.titulo}" loading="lazy">
+        <div class="catalog-card-info"><span class="badge badge-available">Disponível</span><h5>${peca.titulo}</h5><p>${peca.desc}</p></div>
+      </article>`;
+    });
 
-        grid.innerHTML += `
-          <div class="gallery-item ${statusClass}" onclick="abrirLightbox(${originalIndex})">
-            <div class="badge ${badgeClass}">${statusText}</div>
-            <img src="${peca.img}" alt="${peca.titulo}" loading="lazy">
-            <div class="gallery-overlay">
-              <h4>${peca.titulo}</h4>
-              <p>${peca.desc}</p>
-            </div>
-          </div>`;
-      });
-    }
-
-    function filtrarGaleria(filtro, btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      if (filtro === 'todas') {
-        pecasFiltradas = [...pecas];
-      } else if (filtro === 'disponivel') {
-        pecasFiltradas = pecas.filter(p => p.disponivel);
-      } else if (filtro === 'indisponivel') {
-        pecasFiltradas = pecas.filter(p => !p.disponivel);
-      }
-
-      renderizarGaleria(pecasFiltradas);
-    }
-
-    renderizarGaleria(pecas);
+    modelos.forEach((modelo, index) => {
+      const lightboxIndex = pecasDisponiveis.length + index;
+      modelsGrid.innerHTML += `<figure class="model-card" onclick="abrirLightbox(${lightboxIndex})">
+        <img src="${modelo.img}" alt="${modelo.titulo}" loading="lazy"><figcaption>${modelo.titulo}</figcaption>
+      </figure>`;
+    });
 
     function abrirLightbox(i) {
       currentIndex = i;
