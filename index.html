@@ -526,7 +526,7 @@
       font-family: 'Playfair Display', serif;
       color: var(--wood-dark);
       font-size: 2rem;
-      font-weight: 400;
+      font-weight: 700;
     }
 
     .catalog-block-header p { color: var(--wood-medium); margin: 0; }
@@ -1086,30 +1086,31 @@
     // ============================================================
     const pecasDisponiveis = [
       {
-        img: "/TracosRusticos-pagina/src/Cadeira1_marco.webp",
-        titulo: "P.D.1",
-        desc: "Cadeirão vintage restaurado estofado em tecido."
+        img: "/TracosRusticos-pagina/src/Peça 1.webp",
+        titulo: "Mesa de trabalho vintage",
+        desc: ""
       },
       {
-        img: "/TracosRusticos-pagina/src/Cadeira2_marco.webp",
-        titulo: "P.D.2",
-        desc: "Cadeira de madeira com assento estofado em veludo vermelho."
+        img: "/TracosRusticos-pagina/src/Peça 2.webp",
+        titulo: "Mesa de Carpinteiro",
+        desc: ""
       },
       {
-        img: "/TracosRusticos-pagina/src/Cadeira3_marco.webp",
-        titulo: "P.D.3",
-        desc: "Conjunto de cadeiras e mesa restaurada em madeira maciça."
+        img: "/TracosRusticos-pagina/src/Peça 3.webp",
+        titulo: "Conjunto de bancos rústicos",
+        desc: ""
       },
       {
-        img: "/TracosRusticos-pagina/src/mesa_carpinteiro.webp",
-        titulo: "P.D.4",
-        desc: "Mesa de carpinteiro ideal para um espaço de criação."
+        img: "/TracosRusticos-pagina/src/Peça 4.webp",
+        titulo: "Mesa de trabalho",
+        desc: ""
       },
     ];
-    const modelos = [1, 2, 3, 4, 5, 6, 7, 8].map((numero) => ({
+    const numerosRomanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
+    const modelos = [1, 2, 3, 4, 5, 6, 7, 8].map((numero, index) => ({
       img: numero === 4 ? "/TracosRusticos-pagina/src/modelo_4.jpg" : `/TracosRusticos-pagina/Modelo ${numero}.jpeg`,
-      titulo: `Modelo ${numero}`,
-      desc: `Modelo ${numero} disponível para encomenda.`
+      titulo: `Modelo ${numerosRomanos[index]}`,
+      desc: `Modelo ${numerosRomanos[index]} disponível para encomenda.`
     }));
 
     const pecas = [...pecasDisponiveis, ...modelos];
